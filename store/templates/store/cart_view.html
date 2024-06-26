@@ -1,0 +1,23 @@
+{% extends 'store/base.html' %}
+
+{% block title %}Shopping Cart{% endblock %}
+
+{% block content %}
+    <h1>Shopping Cart</h1>
+    {% if cart %}
+        <ul>
+        {% for cart_item in cart.cartitem_set.all %}
+            <li>
+                <h2>{{ cart_item.item.name }}</h2>
+                <p>Quantity: {{ cart_item.quantity }}</p>
+                <p>Price: ${{ cart_item.item.price }}</p>
+                <!-- Add more details as needed -->
+            </li>
+        {% endfor %}
+        </ul>
+        <p>Total Quantity: {{ cart.total_quantity }}</p>
+        <p>Total Price: ${{ cart.total_price }}</p>
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+{% endblock %}

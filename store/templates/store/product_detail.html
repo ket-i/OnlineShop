@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ item.name }}</title>
+    <!-- Add Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-M1siRTo6u4H5O7KV5L00wtz6KKeXmKBEo5w2pYUmYLBbTg7L46ZLKLQrjI0hSvIHbwZy3ACptD8qU0XFTyRO4w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* Optional: Custom styles for icon */
+        .back-to-main {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333; /* Adjust color as needed */
+        }
+    </style>
+</head>
+<body>
+    <a href="{% url 'product_list' %}" class="back-to-main"><i class="fas fa-arrow-left"></i> Back to Main</a>
+    
+    <h1>{{ item.name }}</h1>
+    <p>Price: ${{ item.price }}</p>
+    <p>Brand: {{ item.brand }}</p>
+    <p>Category: {{ item.category }}</p>
+    <!-- Display other item details and reviews here -->
+    <h2>Reviews:</h2>
+    {% for review in reviews %}
+        <p><strong>{{ review.user.username }}</strong>: Rating - {{ review.rating }}</p>
+        <p>{{ review.comment }}</p>
+    {% empty %}
+        <p>No reviews yet.</p>
+    {% endfor %}
+    <!-- Review form for authenticated users -->
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            {{ review_form.as_p }}
+            <button type="submit">Submit Review</button>
+        </form>
+    {% else %}
+        <p>Please <a href="{% url 'login' %}">login</a> to add a review.</p>
+    {% endif %}
+</body>
+</html>

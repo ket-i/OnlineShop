@@ -1,0 +1,48 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'store/styles.css' %}">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <ul>
+            <li><a href="{% url 'product_list' %}">Product List</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'logout' %}">Logout</a></li>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <h1>Cart</h1>
+
+    <div class="cart-items">
+        {% for cart_item in cart.cartitem_set.all %}
+            <div class="cart-item">
+                <h3>{{ cart_item.item.name }}</h3>
+                <p>Price: ${{ cart_item.item.price }}</p>
+                <p>Quantity: {{ cart_item.quantity }}</p>
+                <p>Total Price: ${{ cart_item.total_price }}</p>
+                <a href="{% url 'remove_from_cart' cart_item.item.id %}">Remove from Cart</a>
+            </div>
+        {% empty %}
+            <p>Cart is empty.</p>
+        {% endfor %}
+    </div>
+
+    <div class="cart-summary">
+        <h2>Cart Summary</h2>
+        <p>Total Items: {{ cart.cartitem_set.count }}</p>
+        <p>Total Price: ${{ cart.total_price }}</p>
+    </div>
+
+</body>
+</html>

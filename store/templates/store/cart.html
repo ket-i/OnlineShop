@@ -1,0 +1,64 @@
+<!-- templates/store/cart.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart</title>
+    <style>
+        /* Add your CSS styles here for cart presentation */
+        .cart-item {
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 10px;
+        }
+        .cart-item img {
+            max-width: 100px;
+            height: auto;
+            float: left;
+            margin-right: 10px;
+        }
+        .cart-item .item-details {
+            float: left;
+        }
+        .cart-total {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Shopping Cart</h1>
+
+    {% if cart %}
+        {% if cart.items %}
+            <div class="cart-items">
+                {% for item in cart.items %}
+                    <div class="cart-item">
+                        <img src="{{ item.image }}" alt="{{ item.name }}">
+                        <div class="item-details">
+                            <h2>{{ item.name }}</h2>
+                            <p>Price: ${{ item.price }}</p>
+                            <p>Quantity: {{ item.quantity }}</p>
+                            <!-- Add more item details as needed -->
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Your cart is empty.</p>
+        {% endif %}
+
+        <div class="cart-total">
+            <p>Total: ${{ cart.total }}</p>
+            <!-- Display any additional information, like taxes or shipping -->
+        </div>
+
+        <!-- Add checkout button or links -->
+        <a href="{% url 'checkout' %}">Proceed to Checkout</a>
+
+    {% else %}
+        <p>Your cart is empty.</p>
+    {% endif %}
+</body>
+</html>
